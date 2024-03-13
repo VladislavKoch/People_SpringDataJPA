@@ -73,11 +73,11 @@ public class Person {
         this.address = address;
     }
 
-    public Person(String name, int age, String email, String address) {
-        this.name = name;
-        this.age = age;
-        this.email = email;
-        this.address = address;
+    public void setPersonByAnotherPerson(Person person) {
+        this.name = person.getName();
+        this.age = person.getAge();
+        this.email = person.getEmail();
+        this.address = person.getAddress();
     }
 
     public Person() {

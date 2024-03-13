@@ -28,22 +28,38 @@ public class PersonDAO {
         return people;
     }
 
+    @Transactional(readOnly = true)
     public Person show(int id) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        Person person = session.get(Person.class, id);
+        return person;
     }
 
+    @Transactional(readOnly = true)
     public Optional<Person> show(String email) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        Person person = session.createQuery("from Person where email=:email", Person.class)
+                .setParameter("email", email).getSingleResult();
+        Optional<Person> optional = Optional.of(person);
+        return optional;
     }
 
+    @Transactional
     public void save(Person person) {
-
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(person);
     }
 
+    @Transactional
     public void update(int id, Person updatedPerson) {
-
+        Session session = sessionFactory.getCurrentSession();
+        Person person = session.get(Person.class, id);
+        person.setPersonByAnotherPerson(updatedPerson);
     }
 
+    @Transactional
     public void delete(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        session.remove(session.get(Person.class, id));
     }
 }
