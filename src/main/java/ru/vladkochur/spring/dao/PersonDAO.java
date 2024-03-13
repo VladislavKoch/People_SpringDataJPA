@@ -24,23 +24,25 @@ public class PersonDAO {
     @Transactional(readOnly = true)
     public List<Person> index() {
         Session session = sessionFactory.getCurrentSession();
-        List<Person> people = session.createQuery("from Person", Person.class).getResultList();
-        return people;
+        return session.createQuery("from Person", Person.class).getResultList();
     }
 
     @Transactional(readOnly = true)
     public Person show(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Person person = session.get(Person.class, id);
-        return person;
+        return session.get(Person.class, id);
     }
 
     @Transactional(readOnly = true)
     public Optional<Person> show(String email) {
         Session session = sessionFactory.getCurrentSession();
-        Person person = session.createQuery("from Person where email=:email", Person.class)
-                .setParameter("email", email).getSingleResult();
-        Optional<Person> optional = Optional.of(person);
+        Person person = null;
+        try {
+            person = session.createQuery("from Person where email=:email", Person.class)
+                    .setParameter("email", email).getSingleResult();
+        } catch (Exception e) {
+        }
+        Optional<Person> optional = Optional.ofNullable(person);
         return optional;
     }
 
