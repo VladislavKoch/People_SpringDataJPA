@@ -36,14 +36,8 @@ public class PersonDAO {
     @Transactional(readOnly = true)
     public Optional<Person> show(String email) {
         Session session = sessionFactory.getCurrentSession();
-        Person person = null;
-        try {
-            person = session.createQuery("from Person where email=:email", Person.class)
-                    .setParameter("email", email).getSingleResult();
-        } catch (Exception e) {
-        }
-        Optional<Person> optional = Optional.ofNullable(person);
-        return optional;
+        return session.createQuery("from Person where email=:email", Person.class)
+                .setParameter("email", email).getResultList().stream().findAny();
     }
 
     @Transactional
@@ -55,8 +49,8 @@ public class PersonDAO {
     @Transactional
     public void update(int id, Person updatedPerson) {
         Session session = sessionFactory.getCurrentSession();
-        Person person = session.get(Person.class, id);
-        person.setPersonByAnotherPerson(updatedPerson);
+        Person personToBeUpdated = session.get(Person.class, id);
+        personToBeUpdated.setPersonByAnotherPerson(updatedPerson);
     }
 
     @Transactional
