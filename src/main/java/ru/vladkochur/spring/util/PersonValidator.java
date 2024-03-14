@@ -12,13 +12,6 @@ import ru.vladkochur.spring.services.PeopleService;
 @Component
 public class PersonValidator implements Validator {
 
-//    private final PersonDAO personDAO;
-//
-//    @Autowired
-//    public PersonValidator(PersonDAO personDAO) {
-//        this.personDAO = personDAO;
-//    }
-
     private  final PeopleRepository peopleRepository;
 
     @Autowired
