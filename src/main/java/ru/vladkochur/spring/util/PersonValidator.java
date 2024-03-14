@@ -4,18 +4,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ru.vladkochur.spring.dao.PersonDAO;
 import ru.vladkochur.spring.models.Person;
+import ru.vladkochur.spring.repositories.PeopleRepository;
+import ru.vladkochur.spring.services.PeopleService;
 
 
 @Component
 public class PersonValidator implements Validator {
 
-    private final PersonDAO personDAO;
+//    private final PersonDAO personDAO;
+//
+//    @Autowired
+//    public PersonValidator(PersonDAO personDAO) {
+//        this.personDAO = personDAO;
+//    }
+
+    private  final PeopleRepository peopleRepository;
 
     @Autowired
-    public PersonValidator(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonValidator(PeopleRepository peopleRepository) {
+        this.peopleRepository = peopleRepository;
     }
 
     @Override
@@ -27,7 +35,7 @@ public class PersonValidator implements Validator {
     public void validate(Object o, Errors errors) {
         Person person = (Person) o;
 
-        if (personDAO.show(person.getEmail()).isPresent()) {
+        if (peopleRepository.findOptionalByEmail(person.getEmail()).isPresent()) {
             errors.rejectValue("email", "", "This email is already in use");
         }
     }
