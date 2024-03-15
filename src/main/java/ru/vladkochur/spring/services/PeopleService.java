@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vladkochur.spring.models.Person;
 import ru.vladkochur.spring.repositories.PeopleRepository;
+
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,7 +21,6 @@ public class PeopleService {
     }
 
     public List<Person> findAll() {
-        System.out.println("Debug");
         return peopleRepository.findAll();
     }
 
@@ -29,6 +30,7 @@ public class PeopleService {
 
     @Transactional //Перекрывает аннотацию над классом
     public void save(Person person) {
+        person.setCreatedAt(new Date());
         peopleRepository.save(person);
     }
 

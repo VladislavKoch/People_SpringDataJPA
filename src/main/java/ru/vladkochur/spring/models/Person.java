@@ -2,8 +2,11 @@ package ru.vladkochur.spring.models;
 
 
 
-import javax.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import  javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "Person")
@@ -30,8 +33,35 @@ public class Person {
     private String email;
 
     @Column(name = "address")
-    @Pattern(regexp = "^(.*?)\\s*,\\s*(.*?)\\s*,\\s*(\\d{6})$", message = "Wright Country, City, Index like 000000")
+    @Pattern(regexp = "(.*?)\\s*,\\s*(.*?)\\s*,\\s*(\\d{6})", message = "Write in format: Country, City, Index like 000000")
     private String address;
+
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+
+    @Column(name = "date_of_birth")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy") //Valid
+    @NotNull(message = "You must write a date of birth")
+    private Date dateOfBirth;
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
     public int getId() {
         return id;
