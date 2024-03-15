@@ -19,6 +19,7 @@ public class PeopleService {
     }
 
     public List<Person> findAll() {
+        System.out.println("Debug");
         return peopleRepository.findAll();
     }
 
